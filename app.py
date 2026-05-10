@@ -1,13 +1,9 @@
+from flask import Flask
 import os
-from flask import Flask, send_from_directory, request
 
 app = Flask(__name__)
 
-# Sabhi photos ko load karne ka stylish rasta
-@app.route('/images/<filename>')
-def get_image(filename):
-    return send_from_directory('.', filename)
-
+# --- WEBSITE CONTENT ---
 @app.route('/')
 def home():
     return """
@@ -15,101 +11,111 @@ def home():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Horizon Career | Rocky Singh</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Horizon Career | Study in Russia</title>
         <style>
-            body { background-color: #050505; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; }
-            .navbar { background: rgba(20, 20, 20, 0.95); padding: 15px; text-align: center; border-bottom: 2px solid #00FF00; position: sticky; top: 0; z-index: 1000; }
-            .hero { position: relative; text-align: center; color: white; border-bottom: 4px solid #00FF00; }
-            .hero img { width: 100%; height: 450px; object-fit: cover; opacity: 0.6; }
-            .hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-shadow: 2px 2px 10px black; }
+            :root { --primary: #2c3e50; --secondary: #3498db; --accent: #e74c3c; --light: #ecf0f1; }
+            body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; color: #333; line-height: 1.6; background: var(--light); }
             
-            .container { padding: 40px 20px; max-width: 1100px; margin: auto; }
-            .quote-box { background: linear-gradient(135deg, #111, #222); padding: 30px; border-radius: 15px; border-left: 10px solid #00FF00; margin-bottom: 40px; font-style: italic; }
-            
-            .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-            .card { background: #151515; border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-            .card:hover { transform: translateY(-10px); border-color: #00FF00; box-shadow: 0 0 20px rgba(0,255,0,0.3); }
-            .card img { width: 100%; height: 220px; object-fit: cover; }
-            .card-content { padding: 20px; }
-            
-            .contact-section { background: #111; padding: 40px; border-radius: 20px; border: 1px dashed #00FF00; margin-top: 50px; text-align: center; }
-            .contact-btn { display: inline-block; background: #00FF00; color: black; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; margin: 10px; }
-            
-            h2 { color: #00FF00; border-bottom: 2px solid #00FF00; display: inline-block; padding-bottom: 5px; }
+            /* Header & Nav */
+            header { background: var(--primary); color: white; padding: 20px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            nav { background: #34495e; padding: 10px; text-align: center; position: sticky; top: 0; }
+            nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 14px; }
+            nav a:hover { color: var(--secondary); }
+
+            /* Hero Section */
+            .hero { background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=1350&q=80'); 
+                    background-size: cover; color: white; padding: 100px 20px; text-align: center; }
+            .hero h1 { font-size: 3rem; margin: 0; }
+            .hero p { font-size: 1.2rem; max-width: 800px; margin: 20px auto; }
+
+            /* Container */
+            .container { max-width: 1100px; margin: auto; padding: 20px; overflow: hidden; }
+
+            /* Section Styling */
+            section { padding: 40px 0; border-bottom: 1px solid #ddd; }
+            .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; }
+
+            /* Details / Grid */
+            .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+            .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; }
+            .card:hover { transform: translateY(-5px); }
+            .card h3 { color: var(--secondary); border-bottom: 2px solid var(--secondary); display: inline-block; padding-bottom: 5px; }
+
+            /* Footer */
+            footer { background: var(--primary); color: white; text-align: center; padding: 40px 20px; margin-top: 40px; }
+            .footer-links { margin-bottom: 20px; }
+            .footer-links a { color: #bdc3c7; text-decoration: none; margin: 0 10px; font-size: 13px; }
+            .designer { color: var(--secondary); font-weight: bold; font-size: 1.1rem; }
+
+            /* Responsive */
+            @media (max-width: 768px) { .hero h1 { font-size: 2rem; } }
         </style>
     </head>
     <body>
 
-        <div class="navbar">
-            <h1 style="margin:0; letter-spacing:3px; color:#00FF00;">HORIZON CAREER</h1>
-        </div>
+        <header>
+            <h1>HORIZON CAREER</h1>
+            <p>Your Gateway to Education in Russia</p>
+        </header>
+
+        <nav>
+            <a href="#">HOME</a>
+            <a href="#about">ABOUT US</a>
+            <a href="#services">SERVICES</a>
+            <a href="#contact">CONTACT</a>
+        </nav>
 
         <div class="hero">
-            <img src="/images/horizon career.jpeg" alt="Banner">
-            <div class="hero-text">
-                <h1 style="font-size: 3.5em; margin:0;">ROCKY SINGH</h1>
-                <p style="font-size: 1.5em; color: #00FF00;">Founder of Horizon Career | MD - Imperial Rice Exim</p>
-            </div>
+            <h1>Build Your Future in Russia</h1>
+            <p>We provide end-to-end consultancy for Indian students seeking top-tier MBBS, Engineering, and Technical education in world-class Russian Universities.</p>
         </div>
 
         <div class="container">
-            
-            <div class="quote-box">
-                <h2 style="margin-top:0; border:none;">Founder's Message</h2>
-                <p style="font-size: 1.3em;">"Agar aap apne sapno ko sach karne, ek behtareen Doctor banne ya ek achhi international job paane ke liye Russia aana chahte hain, toh main Horizon Career ka founder, Rocky Singh, isme aapki puri help karunga. Aapka bhavishya hamari zimmedari hai."</p>
-                <p style="text-align:right; font-weight:bold; color:#00FF00;">- Rocky Singh</p>
-            </div>
+            <section id="about">
+                <h2 class="section-title">About Horizon Career</h2>
+                <p>Horizon Career is a premier consultancy firm dedicated to bridging the gap between Indian aspirations and Russian excellence. We understand the challenges of studying abroad, and we are here to simplify every step—from university selection to visa processing.</p>
+            </section>
 
-            <h2>Our Expert Services</h2>
-            <div class="grid">
-                <div class="card">
-                    <img src="/images/service 2.jpeg" alt="Education">
-                    <div class="card-content">
-                        <h3>MBBS in Russia</h3>
-                        <p>Duniya ke top medical universities mein admission aur full documentation support.</p>
+            <section id="services">
+                <h2 class="section-title">Our Detailed Services</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>University Selection</h3>
+                        <p>We analyze your profile and suggest the best government-recognized universities in Moscow, Saint Petersburg, and Kazan.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Admission Support</h3>
+                        <p>Complete documentation, invitation letter processing, and application tracking for a 100% success rate.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Visa & Travel</h3>
+                        <p>Full assistance with student visa documentation, flight bookings, and pre-departure briefings.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Local Assistance</h3>
+                        <p>Support in Russia for hostel accommodation, local sim cards, and bank account opening.</p>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="/images/service 3.jpeg" alt="Job">
-                    <div class="card-content">
-                        <h3>Job Placement</h3>
-                        <p>Russia aur international markets mein professional job opportunities ke liye sahi rasta.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="/images/service 4.jpeg" alt="Export">
-                    <div class="card-content">
-                        <h3>Global Trade</h3>
-                        <p>Imperial Rice Exim ke saath high-quality Basmati rice ka international export business.</p>
-                    </div>
-                </div>
-            </div>
+            </section>
 
-            <div class="contact-section">
-                <h2>Connect With Us</h2>
-                <p style="font-size: 1.2em;">Aapke sapno ki udaan ab dur nahi. Aaj hi humse sampark karein!</p>
-                <div style="margin-top:20px;">
-                    <p>📧 <b>Email:</b> rockysingh4405@gmail.com</p>
-                    <p>📞 <b>India:</b> +91 9929602844</p>
-                    <p>🇷🇺 <b>Russia:</b> +7 9964098229</p>
-                </div>
-                <a href="https://wa.me/919929602844" class="contact-btn">WhatsApp India</a>
-                <a href="mailto:rockysingh4405@gmail.com" class="contact-btn" style="background:#fff;">Send Email</a>
-            </div>
-
-            <div style="text-align:center; margin-top:50px; color:#666; font-style:italic;">
-                <p>"The only way to do great work is to love what you do. Success is not just about destination, it's about the journey."</p>
-            </div>
-
+            <section id="details">
+                <h2 class="section-title">Why Russia?</h2>
+                <ul style="list-style-type: square; columns: 2; padding: 20px;">
+                    <li>Globally Recognized Degrees</li>
+                    <li>Low Tuition Fees (Subsidized)</li>
+                    <li>No Entrance Exams like IELTS/TOEFL</li>
+                    <li>Modern Infrastructure & Labs</li>
+                    <li>European Standard of Living</li>
+                    <li>High Safety for International Students</li>
+                    <li>English Medium Courses Available</li>
+                    <li>Direct Admission Process</li>
+                </ul>
+            </section>
         </div>
 
-        <footer style="text-align:center; padding:30px; background:#111; margin-top:50px; color:#555;">
-            © 2026 Horizon Career | Designed by Rocky Singh
-        </footer>
-
-    </body>
-    </html>
-    """
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        <footer>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">FAQ</a>
+            </div>
+            <p>© 2026 <b>Horizon Career Consultancy</b>. All Rights Reserved.</p>
