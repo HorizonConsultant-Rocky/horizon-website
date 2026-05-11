@@ -1,84 +1,144 @@
-from flask import Flask
+import streamlit as st
 import os
 
-app = Flask(__name__)
+# Page Configuration
+st.set_page_config(page_title="Horizon Career | Russia Employment & Education Expert", layout="wide")
 
-@app.route('/')
-def home():
-    # Aapka GitHub username aur repo name yahan hai
-    base_url = "https://raw.githubusercontent.com/HorizonConsultant-Rocky/horizon-website/main/"
-    
-    return f"""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Horizon Career | Study in Russia</title>
-        <style>
-            body {{ font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }}
-            header {{ 
-                background: linear-gradient(rgba(0,0,50,0.8), rgba(0,0,50,0.8)), 
-                            url('{base_url}horizon%20career.jpeg'); 
-                background-size: cover; background-position: center;
-                color: white; padding: 100px 20px; text-align: center;
-            }}
-            .container {{ max-width: 1200px; margin: auto; padding: 40px 20px; }}
-            .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }}
-            .card {{ background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); text-align: center; transition: 0.3s; }}
-            .card:hover {{ transform: translateY(-10px); }}
-            .card img {{ width: 100%; height: 250px; object-fit: cover; border-bottom: 4px solid #d32f2f; }}
-            .card-content {{ padding: 20px; }}
-            .btn {{ 
-                display: inline-block; background: #25d366; color: white; padding: 15px 30px; 
-                text-decoration: none; border-radius: 30px; font-weight: bold; margin: 10px; font-size: 1.1rem;
-            }}
-            .email-btn {{ background: #d32f2f; }}
-            footer {{ background: #1a1a1a; color: white; text-align: center; padding: 30px; margin-top: 50px; }}
-            h1 {{ font-size: 3rem; margin-bottom: 10px; text-transform: uppercase; }}
-            .contact-section {{ background: white; padding: 40px; border-radius: 20px; text-align: center; margin-top: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }}
-        </style>
-    </head>
-    <body>
-        <header>
-            <h1>HORIZON CAREER CONSULTANCY</h1>
-            <p>Your Trusted Gateway to Education in Russia</p>
-        </header>
+# Custom CSS for High-End Design
+st.markdown("""
+    <style>
+    .main { background-color: #ffffff; }
+    .stApp { background-color: #f4f7f9; }
+    .hero-container { background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%); padding: 60px; border-radius: 0 0 50px 50px; color: white; text-align: center; margin-bottom: 40px; }
+    .info-card { background: white; padding: 25px; border-radius: 15px; border-left: 8px solid #1a73e8; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .stat-box { text-align: center; padding: 20px; background: #e3f2fd; border-radius: 10px; border: 1px solid #bbdefb; }
+    .stat-number { font-size: 30px; font-weight: bold; color: #1565c0; }
+    .step-box { padding: 15px; border-radius: 50%; background: #1a73e8; color: white; width: 40px; height: 40px; display: inline-block; text-align: center; line-height: 10px; font-weight: bold; }
+    .footer { background: #121212; color: white; padding: 50px; border-radius: 20px 20px 0 0; margin-top: 50px; }
+    </style>
+    """, unsafe_allow_html=True)
 
-        <div class="container">
-            <h2 style="text-align:center; margin-bottom:40px; font-size: 2rem; color: #2c3e50;">Our Premium Services</h2>
-            <div class="grid">
-                <div class="card">
-                    <img src="{base_url}service%202.jpeg" alt="Admission">
-                    <div class="card-content"><h3>Direct Admission</h3><p>Fast track process for Russian Universities.</p></div>
-                </div>
-                <div class="card">
-                    <img src="{base_url}service%203.jpeg" alt="Visa">
-                    <div class="card-content"><h3>Visa Assistance</h3><p>Guaranteed visa support and documentation.</p></div>
-                </div>
-                <div class="card">
-                    <img src="{base_url}service%204.jpeg" alt="Support">
-                    <div class="card-content"><h3>Local Support</h3><p>Hostel and SIM card assistance in Russia.</p></div>
-                </div>
+# 1. MEGA HERO SECTION
+st.markdown("""
+    <div class="hero-container">
+        <h1>HORIZON CAREER: YOUR GATEWAY TO RUSSIA</h1>
+        <p style="font-size: 22px;">India's Most Trusted Career Consultancy for Russian Opportunities</p>
+        <p>Managed by <b>Vicky Singh</b> | Trusted by Students Across India</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if os.path.exists('horizon career.jpeg'):
+    st.image('horizon career.jpeg', use_container_width=True)
+
+# 2. QUICK STATS (Motivation & Facts)
+st.markdown("### 📊 Quick Facts: Russia 2026")
+s1, s2, s3, s4 = st.columns(4)
+with s1: st.markdown('<div class="stat-box"><p class="stat-number">100%</p><p>Visa Success</p></div>', unsafe_allow_html=True)
+with s2: st.markdown('<div class="stat-box"><p class="stat-number">₹80k+</p><p>Avg. Starting Salary</p></div>', unsafe_allow_html=True)
+with s3: st.markdown('<div class="stat-box"><p class="stat-number">30k+</p><p>Indian Students</p></div>', unsafe_allow_html=True)
+with s4: st.markdown('<div class="stat-box"><p class="stat-number">24/7</p><p>Local Support</p></div>', unsafe_allow_html=True)
+
+# 3. DETAILED COMPARISON (India vs Russia)
+st.divider()
+st.header("🔍 India vs Russia: Career Comparison")
+col_inv1, col_inv2 = st.columns(2)
+
+with col_inv1:
+    st.markdown("""
+    <div class="info-card">
+        <h4>🇮🇳 Career in India</h4>
+        <ul>
+            <li>High competition in entrance exams (NEET/JEE).</li>
+            <li>Limited seats in government colleges.</li>
+            <li>High cost of private education (₹60L - ₹1Cr+).</li>
+            <li>Stagnant starting salaries in many sectors.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_inv2:
+    st.markdown("""
+    <div class="info-card" style="border-left-color: #2e7d32;">
+        <h4>🇷🇺 Career in Russia</h4>
+        <ul>
+            <li>Direct admission in Top-tier Universities.</li>
+            <li>Subsidized tuition fees (Government funded).</li>
+            <li>International Exposure & Global Degree.</li>
+            <li>Easier pathway to European & Western markets.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+# 4. STEP-BY-STEP PROCESS (The Horizon Journey)
+st.header("🛠️ Humara Process: Form Se Flight Tak")
+st.write("Hum aapka haath tab tak nahi chhodte jab tak aap settle nahi ho jaate.")
+
+steps = [
+    ("Counseling", "Aapki profile analyze karke sahi career path chunna."),
+    ("Document Prep", "Apostille, Translation aur Medical Insurance ka kaam."),
+    ("Visa Stamping", "Embassy se visa lagwane ki poori zimmedari hamari."),
+    ("Pre-Departure", "Russia ki lifestyle aur rules ke baare mein briefing."),
+    ("On-Arrival", "Airport pickup, Sim card, aur Hostel check-in.")
+]
+
+for i, (title, desc) in enumerate(steps, 1):
+    st.markdown(f"**Step {i}: {title}** - {desc}")
+
+# 5. MEGA INFO SECTION: LIFE IN RUSSIA
+st.divider()
+st.header("🌍 Russia Mein Zindagi Kaisi Hogi?")
+tab1, tab2, tab3 = st.tabs(["🏠 Accommodation", "🍲 Food & Expenses", "🚆 Connectivity"])
+
+with tab1:
+    st.write("""
+    - **University Hostels:** Ekdum safe, centralized heating ke saath.
+    - **Rentals:** Sheron mein flats ka option bhi available hai (Hum dhoondne mein help karenge).
+    - **Security:** CCTV aur 24/7 guard security har student hostel mein hoti hai.
+    """)
+    if os.path.exists('service 3.jpeg'): st.image('service 3.jpeg', width=400)
+
+with tab2:
+    st.write("""
+    - **Monthly Living Cost:** ₹15,000 se ₹25,000 ke beech (Shehar ke hisaab se).
+    - **Indian Mess:** Zyada tar badi universities mein Indian khana available hai.
+    - **Part-time Work:** Students ke liye kaam karne ke kanooni mauke.
+    """)
+
+with tab3:
+    st.write("""
+    - **Yandex Go:** Russia ki sabse best taxi service.
+    - **Metro Rail:** Moscow aur St. Petersburg mein world-class transport.
+    - **Direct Flights:** Delhi aur Mumbai se Moscow ke liye direct connectivity.
+    """)
+
+# 6. MOTIVATIONAL QUOTE
+st.markdown("""
+    <div style="background: #fff3e0; padding: 40px; border-radius: 20px; text-align: center; border: 1px dashed #ff9800; margin: 40px 0;">
+        <h2 style="color: #e65100;">"Waqt aur Mauka intezaar nahi karte."</h2>
+        <p>Aaj liya gaya ek sahi faisla aapka aur aapki family ka future badal sakta hai. 
+        Horizon Career aapke har kadam par saath hai.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# 7. FOOTER & CONTACTS
+st.markdown(f"""
+    <div class="footer">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3>HORIZON CAREER</h3>
+                <p>Leading Career Consultancy for Russia & Beyond.</p>
+                <p><b>MD: Vicky Singh</b></p>
             </div>
-
-            <div class="contact-section">
-                <h2 style="color: #2c3e50;">Contact MD Rocky Singh</h2>
-                <p>Ready to start your journey? Get in touch today.</p>
-                <a href="https://wa.me/919929602844" class="btn">WhatsApp India</a>
-                <a href="https://wa.me/79964098229" class="btn">WhatsApp Russia</a>
-                <br>
-                <a href="mailto:rockysingh4405@gmail.com" class="btn email-btn">Email Us: rockysingh4405@gmail.com</a>
+            <div style="flex: 1; min-width: 300px;">
+                <h4>Emergency Helpdesk</h4>
+                <p>📞 India: +91 99296 02844 | +91 95720 95975</p>
+                <p>📞 Russia: +7 996 409 8229</p>
+                <p>📧 Email: rockysingh4405@gmail.com</p>
             </div>
         </div>
-
-        <footer>
-            <p>&copy; 2026 Horizon Career Consultancy | Designed and Managed by <b>Rocky Singh</b></p>
-        </footer>
-    </body>
-    </html>
-    """
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+        <hr style="border-color: #333;">
+        <p style="text-align: center; font-size: 14px; opacity: 0.6;">
+            © 2026 Horizon Career. All Rights Reserved. Managed with dedication by Vicky Singh.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
